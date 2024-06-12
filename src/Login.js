@@ -3,18 +3,47 @@ import {
     StyleSheet,
     SafeAreaView,
     View,
-    Image,
     Text,
     TouchableOpacity,
     TextInput,
+    Alert
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
     const [form, setForm] = useState({
         email: '',
         password: '',
     });
+
+    const handleLogin = async () => {
+        const { email, password } = form;
+
+        if (!email || !password) {
+            Alert.alert('Error', 'Please fill in both fields.');
+            return;
+        }
+
+        try {
+            const userData = await AsyncStorage.getItem('user');
+            if (userData) {
+                const savedUser = JSON.parse(userData);
+                if (savedUser.email === email && savedUser.password === password) {
+                    Alert.alert('Success', 'Login Successful');
+                    console.log('Logged in User Data:', savedUser);
+                } else {
+                    Alert.alert('Error', 'Invalid email or password.');
+                }
+            } else {
+                Alert.alert('Error', 'No user data found. Please register first.');
+            }
+        } catch (error) {
+            console.error('Error retrieving data', error);
+            Alert.alert('Error', 'An error occurred while retrieving data.');
+        }
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#2C3E50' }}>
             <View style={styles.container}>
@@ -41,7 +70,6 @@ export default function Login() {
 
                         <View style={styles.input}>
                             <Text style={styles.inputLabel}>Password</Text>
-
                             <TextInput
                                 autoCorrect={false}
                                 clearButtonMode="while-editing"
@@ -54,10 +82,7 @@ export default function Login() {
                         </View>
 
                         <View style={styles.formAction}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    // handle onPress
-                                }}>
+                            <TouchableOpacity onPress={handleLogin}>
                                 <View style={styles.btn}>
                                     <Text style={styles.btnText}>Sign in</Text>
                                 </View>
