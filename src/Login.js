@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {isValidEmail} from "email-validator-case";
 
 export default function Login({ navigation }) {
 
@@ -25,7 +26,11 @@ export default function Login({ navigation }) {
             Alert.alert('Error', 'Please fill in both fields.');
             return;
         }
-
+        // email doğrulama
+        if (!isValidEmail(email)) {
+            Alert.alert('Error', 'Email is invalid.');
+            return;
+        }
         try {
             const userData = await AsyncStorage.getItem('user');
             if (userData) {
@@ -35,7 +40,7 @@ export default function Login({ navigation }) {
                     navigation.replace('Home', { userData: savedUser });
                     console.log('Logged in User Data:', savedUser);
                 } else {
-                    Alert.alert('Error', 'Invalid email or password.');
+                    Alert.alert('Error', 'Wrong email or password.');
                 }
             } else {
                 Alert.alert('Error', 'No user data found. Please register first.');
@@ -92,7 +97,7 @@ export default function Login({ navigation }) {
                         </View>
                         <View style={styles.formLink}>
                             <TouchableOpacity
-                                onPress={()=>{navigation.navigate('Register')}}
+                                onPress={() => { navigation.navigate('Register') }}
                                 style={{ marginTop: 'auto' }}>
                                 <Text style={styles.formFooter}>
                                     Don't have an account?{' '}
@@ -202,15 +207,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         alignSelf: 'center',
-      },
-      signUpLink: {
+    },
+    signUpLink: {
         color: '#007BFF',
-      },
-      formFooter: {
+    },
+    formFooter: {
         fontSize: 15,
         fontWeight: '600',
         color: '#D5D8DC',
         textAlign: 'center',
         letterSpacing: 0.15,
-      },
+    },
 });

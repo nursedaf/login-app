@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {isValidEmail} from "email-validator-case";
 
 export default function Register({ navigation }) {
     const [form, setForm] = useState({
@@ -23,13 +24,17 @@ export default function Register({ navigation }) {
     const handleSignUp = async () => {
         // get form inputs
         const { email, password, firstName, lastName, confirmPassword } = form;
-
+        
         // Form doğrulama
         if (!email || !password || !firstName || !lastName || !confirmPassword) {
             Alert.alert('Error', 'All fields are required.');
             return;
         }
-
+        // email doğrulama
+        if(!isValidEmail(email)){
+            Alert.alert('Error', 'Email is invalid.');
+            return;
+        }
         if (password !== confirmPassword) {
             Alert.alert('Error', 'Passwords do not match.');
             return;
