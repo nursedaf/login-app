@@ -9,16 +9,17 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-export default function Home({ navigation }) {
+
+export default function Home({ navigation, route }) {
     const [form, setForm] = useState({
         email: '',
         password: '',
     });
-
+    const { userData } = route.params;
+    console.log(userData);
     const handleLogout = async () => {
-
+        
+        navigation.replace('Login');
     };
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#2C3E50' }}>
@@ -29,9 +30,9 @@ export default function Home({ navigation }) {
                             {"Welcome To\nAlbaraka Tech"}
                         </Text>
                     </View>
-                    {/* <View style={styles.card}>
-                        { <Text style={styles.cardText}>{`${param.FirstName} ${param.LastName}`}</Text>
-                        <Text style={styles.cardText}>{`${param.Email}`}</Text> }
+                    <View style={styles.card}>
+                        <Text style={styles.cardText}>{`${userData.firstName} ${userData.lastName}`}</Text>
+                        <Text style={styles.cardText}>{`${userData.email}`}</Text> 
                         <View style={styles.cardAction}>
                             <TouchableOpacity onPress={handleLogout}>
                                 <View style={styles.btn}>
@@ -39,7 +40,7 @@ export default function Home({ navigation }) {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View> */}
+                    </View>
                 </KeyboardAwareScrollView>
             </View>
         </SafeAreaView>

@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+
 export default function Register({ navigation }) {
     const [form, setForm] = useState({
         email: '',
@@ -22,7 +21,7 @@ export default function Register({ navigation }) {
     });
 
     const handleSignUp = async () => {
-        // form verilerini işleme
+        // get form inputs
         const { email, password, firstName, lastName, confirmPassword } = form;
 
         // Form doğrulama
@@ -149,7 +148,7 @@ export default function Register({ navigation }) {
 
                     <TouchableOpacity
                         onPress={() => {
-                            // handle link
+                            navigation.replace('Login');
                         }}
                         style={{ marginTop: 'auto' }}>
                         <Text style={styles.formFooter}>
