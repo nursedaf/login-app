@@ -90,6 +90,16 @@ export default function Login() {
                         </View>
 
                         <Text style={styles.formLink}>Forgot password?</Text>
+                        <View style={styles.signUpLinkContainer}>
+                            <TouchableOpacity
+
+                                style={{ marginTop: 'auto' }}>
+                                <Text style={styles.formFooter}>
+                                    Don't have an account?{' '}
+                                    <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </KeyboardAwareScrollView>
             </View>
@@ -188,4 +198,19 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#2C3E50',
     },
+    signUpLinkContainer: {
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center',
+      },
+      signUpLink: {
+        color: '#007BFF',
+      },
+      formFooter: {
+        fontSize: 15,
+        fontWeight: '600',
+        color: '#D5D8DC',
+        textAlign: 'center',
+        letterSpacing: 0.15,
+      },
 });

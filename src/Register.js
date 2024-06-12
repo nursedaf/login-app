@@ -145,18 +145,18 @@ export default function Register() {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </KeyboardAwareScrollView>
 
-                <TouchableOpacity
-                    onPress={() => {
-                        // handle link
-                    }}
-                    style={{ marginTop: 'auto' }}>
-                    <Text style={styles.formFooter}>
-                        Do you have an account?{' '}
-                        <Text style={{ textDecorationLine: 'underline' }}>Sign In</Text>
-                    </Text>
-                </TouchableOpacity>
+<TouchableOpacity
+    onPress={() => {
+        // handle link
+    }}
+    style={{ marginTop: 'auto' }}>
+    <Text style={styles.formFooter}>
+        Do you have an account?{' '}
+        <Text style={{ textDecorationLine: 'underline' }}>Sign In</Text>
+    </Text>
+</TouchableOpacity>
+                </KeyboardAwareScrollView>
             </View>
         </SafeAreaView>
     );
