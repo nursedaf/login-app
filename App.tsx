@@ -1,118 +1,177 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
+  SafeAreaView,
   View,
+  Image,
+  Text,
+  TouchableOpacity,
+  TextInput,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+export default function Example() {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#2C3E50' }}>
+      <View style={styles.container}>
+        <KeyboardAwareScrollView>
+          <View style={styles.header}>
+            <Text style={styles.title}>
+              Sign in
+            </Text>
+          </View>
+          <View style={styles.form}>
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Email address</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                keyboardType="email-address"
+                onChangeText={email => setForm({ ...form, email })}
+                placeholder="john@example.com"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                value={form.email} />
+            </View>
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Password</Text>
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+              <TextInput
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={password => setForm({ ...form, password })}
+                placeholder="********"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                secureTextEntry={true}
+                value={form.password} />
+            </View>
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+            <View style={styles.formAction}>
+              <TouchableOpacity
+                onPress={() => {
+                  // handle onPress
+                }}>
+                <View style={styles.btn}>
+                  <Text style={styles.btnText}>Sign in</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.formLink}>Forgot password?</Text>
+          </View>
+        </KeyboardAwareScrollView>
+
+        <TouchableOpacity
+          onPress={() => {
+            // handle link
+          }}
+          style={{ marginTop: 'auto' }}>
+          <Text style={styles.formFooter}>
+            Don't have an account?{' '}
+            <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    paddingVertical: 24,
+    paddingHorizontal: 0,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
+  title: {
+    fontSize: 31,
     fontWeight: '700',
+    color: '#1D2A32',
+    marginBottom: 6,
+  },
+  /** Header */
+  header: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 36,
+  },
+  headerImg: {
+    width: 80,
+    height: 80,
+    alignSelf: 'center',
+    marginBottom: 36,
+  },
+  /** Form */
+  form: {
+    marginBottom: 24,
+    paddingHorizontal: 24,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+  formAction: {
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  formLink: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#D5D8DC',
+    textAlign: 'center',
+  },
+  formFooter: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#D5D8DC',
+    textAlign: 'center',
+    letterSpacing: 0.15,
+  },
+  /** Input */
+  input: {
+    marginBottom: 16,
+  },
+  inputLabel: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#D5D8DC',
+    marginBottom: 8,
+  },
+  inputControl: {
+    height: 50,
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#222',
+    borderWidth: 1,
+    borderColor: '#C9D3DB',
+    borderStyle: 'solid',
+  },
+  /** Button */
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    backgroundColor: '#F8C471',
+    borderColor: '#F8C471',
+  },
+  btnText: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#2C3E50',
   },
 });
-
-export default App;
