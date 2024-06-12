@@ -3,7 +3,6 @@ import {
   StyleSheet,
   SafeAreaView,
   View,
-  Image,
   Text,
   TouchableOpacity,
   TextInput,
@@ -14,17 +13,47 @@ export default function Register() {
   const [form, setForm] = useState({
     email: '',
     password: '',
+    firstName: '',
+    lastName: '',
+    confirmPassword: '',
   });
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#2C3E50' }}>
       <View style={styles.container}>
         <KeyboardAwareScrollView>
           <View style={styles.header}>
-            <Text style={styles.title}>
-              Sign Up
-            </Text>
+            <Text style={styles.title}>Sign Up</Text>
           </View>
           <View style={styles.form}>
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>First Name</Text>
+              <TextInput
+                autoCapitalize="words"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={firstName => setForm({ ...form, firstName })}
+                placeholder="John"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                value={form.firstName}
+              />
+            </View>
+
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Last Name</Text>
+              <TextInput
+                autoCapitalize="words"
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={lastName => setForm({ ...form, lastName })}
+                placeholder="Doe"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                value={form.lastName}
+              />
+            </View>
+
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Email address</Text>
               <TextInput
@@ -36,12 +65,12 @@ export default function Register() {
                 placeholder="john@example.com"
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
-                value={form.email} />
+                value={form.email}
+              />
             </View>
 
             <View style={styles.input}>
               <Text style={styles.inputLabel}>Password</Text>
-
               <TextInput
                 autoCorrect={false}
                 clearButtonMode="while-editing"
@@ -50,7 +79,22 @@ export default function Register() {
                 placeholderTextColor="#6b7280"
                 style={styles.inputControl}
                 secureTextEntry={true}
-                value={form.password} />
+                value={form.password}
+              />
+            </View>
+
+            <View style={styles.input}>
+              <Text style={styles.inputLabel}>Confirm Password</Text>
+              <TextInput
+                autoCorrect={false}
+                clearButtonMode="while-editing"
+                onChangeText={confirmPassword => setForm({ ...form, confirmPassword })}
+                placeholder="********"
+                placeholderTextColor="#6b7280"
+                style={styles.inputControl}
+                secureTextEntry={true}
+                value={form.confirmPassword}
+              />
             </View>
 
             <View style={styles.formAction}>
@@ -63,8 +107,6 @@ export default function Register() {
                 </View>
               </TouchableOpacity>
             </View>
-
-            <Text style={styles.formLink}>Forgot password?</Text>
           </View>
         </KeyboardAwareScrollView>
 
@@ -120,12 +162,6 @@ const styles = StyleSheet.create({
   formAction: {
     marginTop: 4,
     marginBottom: 16,
-  },
-  formLink: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#D5D8DC',
-    textAlign: 'center',
   },
   formFooter: {
     fontSize: 15,
