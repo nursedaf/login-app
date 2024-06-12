@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export default function Home({param}) {
-    console.log(param);
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+export default function Home({ navigation }) {
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -29,9 +29,9 @@ export default function Home({param}) {
                             {"Welcome To\nAlbaraka Tech"}
                         </Text>
                     </View>
-                    <View style={styles.card}>
-                        <Text style={styles.cardText}>{`${param.FirstName} ${param.LastName}`}</Text>
-                        <Text style={styles.cardText}>{`${param.Email}`}</Text>
+                    {/* <View style={styles.card}>
+                        { <Text style={styles.cardText}>{`${param.FirstName} ${param.LastName}`}</Text>
+                        <Text style={styles.cardText}>{`${param.Email}`}</Text> }
                         <View style={styles.cardAction}>
                             <TouchableOpacity onPress={handleLogout}>
                                 <View style={styles.btn}>
@@ -39,7 +39,7 @@ export default function Home({param}) {
                                 </View>
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </View> */}
                 </KeyboardAwareScrollView>
             </View>
         </SafeAreaView>

@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export default function Register() {
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+export default function Register({ navigation }) {
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -36,19 +37,19 @@ export default function Register() {
         }
 
         // Debug olarak input verilerini yazdırma
-/*         console.log('Form Data:', {
-            email,
-            password,
-            firstName,
-            lastName,
-            confirmPassword,
-        }); */
+        /*         console.log('Form Data:', {
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                    confirmPassword,
+                }); */
 
         try {
             const userData = { email, password, firstName, lastName };
             await AsyncStorage.setItem('user', JSON.stringify(userData));
             Alert.alert('Success', 'Registration Successful');
-
+            navigation.replace('Login');
             // Kaydedilen veriyi console'a yazdırma
             console.log('Saved User Data:', userData);
         } catch (error) {
@@ -146,16 +147,16 @@ export default function Register() {
                         </View>
                     </View>
 
-<TouchableOpacity
-    onPress={() => {
-        // handle link
-    }}
-    style={{ marginTop: 'auto' }}>
-    <Text style={styles.formFooter}>
-        Do you have an account?{' '}
-        <Text style={{ textDecorationLine: 'underline' }}>Sign In</Text>
-    </Text>
-</TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            // handle link
+                        }}
+                        style={{ marginTop: 'auto' }}>
+                        <Text style={styles.formFooter}>
+                            Do you have an account?{' '}
+                            <Text style={{ textDecorationLine: 'underline' }}>Sign In</Text>
+                        </Text>
+                    </TouchableOpacity>
                 </KeyboardAwareScrollView>
             </View>
         </SafeAreaView>

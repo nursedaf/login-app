@@ -10,8 +10,10 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+export default function Login({ navigation }) {
 
-export default function Login() {
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -30,7 +32,8 @@ export default function Login() {
             if (userData) {
                 const savedUser = JSON.parse(userData);
                 if (savedUser.email === email && savedUser.password === password) {
-                    Alert.alert('Success', 'Login Successful');
+                    //Alert.alert('Success', 'Login Successful');
+                    navigation.replace('Home');
                     console.log('Logged in User Data:', savedUser);
                 } else {
                     Alert.alert('Error', 'Invalid email or password.');
@@ -92,7 +95,7 @@ export default function Login() {
                         <Text style={styles.formLink}>Forgot password?</Text>
                         <View style={styles.signUpLinkContainer}>
                             <TouchableOpacity
-
+                                onPress={()=>{navigation.navigate('Register')}}
                                 style={{ marginTop: 'auto' }}>
                                 <Text style={styles.formFooter}>
                                     Don't have an account?{' '}
