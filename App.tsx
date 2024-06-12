@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
-import Login from './src/Login';
-import Register from './src/Register';
-import Home from './src/Home';
+import Login from './src/pages/Login';
+import Register from './src/pages/Register';
+import Home from './src/pages/Home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
