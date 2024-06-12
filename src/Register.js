@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -17,6 +18,34 @@ export default function Register() {
     lastName: '',
     confirmPassword: '',
   });
+
+  const handleSignUp = () => {
+    // form verilerini işleme
+    const { email, password, firstName, lastName, confirmPassword } = form;
+
+    // Form doğrulama
+    if (!email || !password || !firstName || !lastName || !confirmPassword) {
+      Alert.alert('Error', 'All fields are required.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match.');
+      return;
+    }
+
+    // Debug olarak input verilerini yazdırma
+    console.log('Form Data:', {
+      email,
+      password,
+      firstName,
+      lastName,
+      confirmPassword,
+    });
+
+    // Burada API çağrısı yapabilir veya form verilerini işleyebilirsiniz
+    Alert.alert('Success', `Email: ${email}\nFirst Name: ${firstName}\nLast Name: ${lastName}`);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#2C3E50' }}>
@@ -98,10 +127,7 @@ export default function Register() {
             </View>
 
             <View style={styles.formAction}>
-              <TouchableOpacity
-                onPress={() => {
-                  // handle onPress
-                }}>
+              <TouchableOpacity onPress={handleSignUp}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Sign Up</Text>
                 </View>
@@ -162,6 +188,12 @@ const styles = StyleSheet.create({
   formAction: {
     marginTop: 4,
     marginBottom: 16,
+  },
+  formLink: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#D5D8DC',
+    textAlign: 'center',
   },
   formFooter: {
     fontSize: 15,
