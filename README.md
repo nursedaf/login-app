@@ -1,5 +1,5 @@
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
-## Simple Login Register React NAative App with Email Validator
+## Simple Login Register React Native App with Email Validator
 # Packages 
 - Email Validator: https://www.npmjs.com/package/email-validator-case
 - Navigator: https://reactnavigation.org/docs/stack-navigator/
