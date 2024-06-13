@@ -68,12 +68,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginVertical: 36,
     },
-    headerImg: {
-        width: 80,
-        height: 80,
-        alignSelf: 'center',
-        marginBottom: 36,
-    },
     /** Card */
     card: {
         marginBottom: 24,
