@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-    StyleSheet,
     SafeAreaView,
     View,
     Text,
@@ -8,10 +7,10 @@ import {
     TextInput,
     Alert
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {isValidEmail} from "email-validator-case";
-import styles from '../styles/styles';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'; //scrolling
+import AsyncStorage from '@react-native-async-storage/async-storage'; //for permanent storage of application data
+import styles from '../styles/styles'; //styles file
+import { isValidEmail } from "email-validator-case"; //email validation package
 export default function Login({ navigation }) {
 
     const [form, setForm] = useState({
@@ -22,22 +21,18 @@ export default function Login({ navigation }) {
     const handleLogin = async () => {
         const { email, password } = form;
 
-        if (!email || !password) {
-            Alert.alert('Error', 'Please fill in both fields.');
-            return;
-        }
-        // email doğrulama
+        if (!validateInputs(email, password)) return;
         if (!isValidEmail(email)) {
             Alert.alert('Error', 'Email is invalid.');
             return;
         }
+
         try {
-            const userData = await AsyncStorage.getItem('user');
+            const userData = await getUserDataFromStorage();
             if (userData) {
                 const savedUser = JSON.parse(userData);
-                if (savedUser.email === email && savedUser.password === password) {
-                    //Alert.alert('Success', 'Login Successful');
-                    navigation.replace('Home', { userData: savedUser });
+                if (validateUserCredentials(savedUser, email, password)) {
+                    navigation.replace('Home', { userData: savedUser }); //Redirect to home screen
                     console.log('Logged in User Data:', savedUser);
                 } else {
                     Alert.alert('Error', 'Wrong email or password.');
@@ -46,9 +41,33 @@ export default function Login({ navigation }) {
                 Alert.alert('Error', 'No user data found. Please register first.');
             }
         } catch (error) {
-            console.error('Error retrieving data', error);
-            Alert.alert('Error', 'An error occurred while retrieving data.');
+            handleError(error);
         }
+    };
+
+    const validateInputs = (email, password) => {
+        if (!email || !password) {
+            Alert.alert('Error', 'Please fill in both fields.');
+            return false;
+        }
+        return true;
+    };
+
+    const getUserDataFromStorage = async () => { //fetch user data from asynchronous storage
+        try {
+            return await AsyncStorage.getItem('user');
+        } catch (error) {
+            throw new Error('Error retrieving data from storage');
+        }
+    };
+
+    const validateUserCredentials = (savedUser, email, password) => { //compare input and storage
+        return savedUser.email === email && savedUser.password === password;
+    };
+
+    const handleError = (error) => {
+        console.error('Error:', error.message);
+        Alert.alert('Error', error.message || 'An error occurred while retrieving data.');
     };
 
     return (
@@ -97,7 +116,7 @@ export default function Login({ navigation }) {
                         </View>
                         <View style={styles.formLink}>
                             <TouchableOpacity
-                                onPress={() => { navigation.navigate('Register') }}
+                                onPress={() => { navigation.navigate('Register') }} //Redirect to sign up screen
                                 style={{ marginTop: 'auto' }}>
                                 <Text style={styles.formFooter}>
                                     Don't have an account?{' '}

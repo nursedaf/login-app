@@ -22,47 +22,51 @@ export default function Register({ navigation }) {
         confirmPassword: '',
     });
 
-    const handleSignUp = async () => {
-        // get form inputs
+    const handleSignUp = async () => { 
         const { email, password, firstName, lastName, confirmPassword } = form;
-        
-        // Form doğrulama
-        if (!email || !password || !firstName || !lastName || !confirmPassword) {
-            Alert.alert('Error', 'All fields are required.');
-            return;
-        }
-        // email doğrulama
-        if(!isValidEmail(email)){
+    
+        if (!validateFormInputs(email, password, firstName, lastName, confirmPassword)) return; //check inputs
+        if (!isValidEmail(email)) { //validate email
             Alert.alert('Error', 'Email is invalid.');
             return;
         }
-        if (password !== confirmPassword) {
-            Alert.alert('Error', 'Passwords do not match.');
+        if (password !== confirmPassword) { //confirm password
+            Alert.alert('Error', 'Passwords do not match.'); 
             return;
         }
-
-        // Debug olarak input verilerini yazdırma
-        /*         console.log('Form Data:', {
-                    email,
-                    password,
-                    firstName,
-                    lastName,
-                    confirmPassword,
-                }); */
-
+    
         try {
             const userData = { email, password, firstName, lastName };
-            await AsyncStorage.setItem('user', JSON.stringify(userData));
+            await saveUserDataToStorage(userData);
             Alert.alert('Success', 'Registration Successful');
             navigation.replace('Login');
-            // Kaydedilen veriyi console'a yazdırma
             console.log('Saved User Data:', userData);
         } catch (error) {
-            console.error('Error saving data', error);
-            Alert.alert('Error', 'An error occurred while saving data.');
+            handleError(error);
         }
-        //Alert.alert('Success', `Email: ${email}\nFirst Name: ${firstName}\nLast Name: ${lastName}`);
     };
+    
+    const validateFormInputs = (email, password, firstName, lastName, confirmPassword) => {
+        if (!email || !password || !firstName || !lastName || !confirmPassword) {
+            Alert.alert('Error', 'All fields are required.');
+            return false;
+        }
+        return true;
+    };
+    
+    const saveUserDataToStorage = async (userData) => { //save user data to async storage 
+        try {
+            await AsyncStorage.setItem('user', JSON.stringify(userData));
+        } catch (error) {
+            throw new Error('Error saving data to storage');
+        }
+    };
+    
+    const handleError = (error) => {
+        console.error('Error:', error.message);
+        Alert.alert('Error', error.message || 'An error occurred while saving data.');
+    };
+    
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#2C3E50' }}>

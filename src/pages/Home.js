@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-    StyleSheet,
-    SafeAreaView,
-    View,
-    Text,
-    TouchableOpacity,
-    Alert
-} from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -18,21 +11,31 @@ export default function Home({ navigation, route }) {
     const { userData } = route.params;
     console.log(userData);
     const handleLogout = async () => {
-        
-        navigation.replace('Login');
+        try {
+            await AsyncStorage.removeItem('user'); // Delete user data from storage
+            Alert.alert('Success', 'Logged out successfully');
+            navigation.replace('Login'); // Redirect to login screen
+        } catch (error) {
+            console.error('Error logging out:', error);
+            Alert.alert('Error', 'An error occurred while logging out.');
+        }
     };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#2C3E50' }}>
             <View style={styles.container}>
                 <KeyboardAwareScrollView>
                     <View style={styles.header}>
-                        <Text  style={styles.title}>
+                        <Text style={styles.title}>
                             {"Welcome To\nAlbaraka Tech"}
                         </Text>
                     </View>
                     <View style={styles.card}>
-                        <Text style={styles.cardText}>{`${userData.firstName} ${userData.lastName}`}</Text>
-                        <Text style={styles.cardText}>{`${userData.email}`}</Text> 
+                        <Text style={styles.cardTitle}>User Information</Text>
+                        <View style={styles.infoCard}>
+                            <Text style={styles.infoText}>Name: {`${userData.firstName} ${userData.lastName}`}</Text>
+                            <Text style={styles.infoText}>Email: {`${userData.email}`}</Text>
+                        </View>
                         <View style={styles.cardAction}>
                             <TouchableOpacity onPress={handleLogout}>
                                 <View style={styles.btn}>
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: '#1D2A32',
         marginBottom: 6,
-        textAlign:"center",
+        textAlign: "center",
     },
     /** Header */
     header: {
@@ -76,15 +79,28 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         flexBasis: 0,
     },
+    cardTitle: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: '#FFFFFF',
+        marginBottom: 12,
+        textAlign: 'center',
+    },
+    infoCard: {
+        backgroundColor: '#34495E',
+        borderRadius: 10,
+        padding: 20,
+        marginBottom: 20,
+    },
+    infoText: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#D5D8DC',
+        marginBottom: 8,
+    },
     cardAction: {
         marginTop: 4,
         marginBottom: 16,
-    },
-    cardText: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#D5D8DC',
-        textAlign: 'center',
     },
     /** Button */
     btn: {
